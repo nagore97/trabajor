@@ -1,0 +1,168 @@
+---
+title: "Trabajo final"
+author: "Nagore Urdangarin"
+date: "28/11/2019"
+output:
+ rmdformats::readthedown:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
+     
+      
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Expresiones Regulares
+
+En este apartado, encontramos dos páginas con recursos sobre expresiones regulares. Analizaré cuál de los dos documentos es más útil. Para ello, en primer lugar, realizaré una breve descripción de cada una de las páginas web y, después, elaboraré una tabla comparativa.
+
+
+## Primera página Web
+
+<https://rstudio-pubs-static.s3.amazonaws.com/407286_15ef411dce584b5d9cad31fb21c68067.html#encontrar-y-extrer-coincidencias-de-las-expresiones-regulares>
+
+Esta página web contiene un documento sobre expresiones regulares en formato de Rmarkdown. Al inicio de la página encontramos un índice que da la opción de ser redirigido, mediante un clic, al apartado que interese. La opción de clicar es de gran utilidad ya que permite encontrar rápidamente la función o expresión que se está buscando.
+
+El documento se divide en diferentes apartados. Cada uno explica diversas funciones y operaciones; entre ellas, la función de "collapse" o las operaciones con "strings". En cada apartado, primero, se explica cada función; después, da la opción de visualizar el código que se debe utilizar; y, por último, indica el resultado que se obtiene de ejecutar el código. 
+
+En mi opinión, es un documento muy completo, que muestra las funciones más comunes de las expresiones regulares. Además, incluye ejemplos que facilitan la comprensión de los códigos. Creo que es una buena web para aprender el manejo de las expresiones regulares, pero puede resultar algo excesiva para quien solo busca un código específico.
+
+
+
+## Segunda página Web
+
+<http://www.ub.edu/stat/docencia/Cursos-R/Radvanced/materials/CadenasenR.pdf>
+
+Esta página web consiste en un breve blog sobre expresiones regulares creado por un usuario online, Diego Calvo. Este blog recoge las expresiones regulares más comunes. El autor no da explicaciones y, simplemente, pone como título lo que se quiere conseguir. A continuación, facilita el código y, por último, indica el resultado que se obtiene de ejecutar el código. También proporciona un ejemplo para cada función. 
+
+Un práctico chat al final del blog permite, de manera opcional, opinar o realizar preguntas. Las respuestas a las cuestiones que los usuarios plantean provienen del propio Diego Calvo y, también, de otros usuarios online expertos en la materia. 
+
+Es una página web idónea para realizar búsquedas rápidas, aunque no lo es tanto para un usuario aprendiz por la ausencia de explicaciones.
+
+
+## Tabla comparativa
+
+**Primera página**                   | **Segunda página**
+--------------------------           | --------------------------
+Índice con opción a clicar           | No tiene un índice
+Documento desarollado en RMarkdown   | Chat para realizar aportaciones o hacer preguntas  
+Explicaciones cortas                 | Títulos a modo de explicación
+Múltiples ejemplos                   | Un ejemplo por cada expresión
+Idóneo para quien busca aprender     | Idóneo para realizar búsquedas rápidas
+
+
+# R Markdown
+
+En este apartado encontramos dos páginas con recursos sobre RMarkdown. Analizaré cuál de los dos documentos es más útil. Para ello, en primer lugar, realizaré una breve descripción de cada una de las páginas web y, después, elaboraré una tabla comparativa.
+
+
+
+## 1. Página Web
+ 
+<https://es.r4ds.hadley.nz/r-markdown.html>
+
+Esta página web contiene uno de los documentos más completos sobre Rmarkdown que he encontrado en internet. Facilita respuesta a la práctica totalidad de preguntas posibles que se plantean para desarrollar un documento Rmakrdown. 
+
+El documento está dividido en varios apartados que van guiando, paso a paso, en la realización del documento: Empieza por los prerrequisitos, tales como las librerías que se necesitan descargar. Continúa con los formatos de textos existentes, los bloques de códigos, las tablas, etc. Finaliza explicando la manera de introducir bibliografías y citas en el documento. Además de las numerosas explicaciones, también proporciona muchos ejemplos. Por último, el documento propone ejercicios para un mejor aprendizaje. Es un documento muy útil para un aprendiz, por todos los ejemplos y ejercicios que incluye.
+
+
+## 2. Página Web
+
+<http://www.unavarra.es/personal/tgoicoa/ESTADISTICA_RMarkdown_tomas/basicRmarkdown/index.html>
+
+Este documento proporciona las explicaciones y ejemplos básicos para para el desarrollo de un documento de Rmarkdow. Como en el caso anterior, también este documento se divide en apartados y proporciona las explicaciones y los códigos necesarios. Sin embargo, no incluye muchos ejemplos. En mi opinión, este documento sirve al lector que quiere realizar consultas específicas sobre formatos de texto o en relación a la manera de poner la cabecera. Pero, por otro lado, no incluye las suficientes explicaciones para el desarrollo de un documento completo de Rmarkdown. 
+
+## Tabla comparativa
+
+**Primera página**                   | **Segunda página**
+---------------------                | ---------------------
+índice con opción a clicar           | índice con opción a clicar
+Dividido por apartados               | Dividido por apartados
+Explicaciones muy desarrolladas      | Explicaciones cortas
+Múltiples ejemplos                   | Pocos ejemplos
+Propone ejercicios                   | Idóneo para realizar búsquedas rápidas 
+Idóneo para quien busca aprende      | 
+
+
+# Ggplot
+
+## Población de la C.A. de Euskadi por año de nacimiento
+
+En este apartado, he analizado la población de la C.A. de Euskadi por año de nacimiento. He realizado las tablas y gráficas con datos de EUSTAT (Instituto Vasco de Estadística). Estos datos recogen el número de nacimientos en la C.A. de Euskadi, clasificados por territorio histórico y sexo, entre los años 1912 y 2016.
+
+
+```{r libros, echo=FALSE, warning=FALSE, include=FALSE}
+library(ggplot2)
+library(reshape2)
+library(lubridate)
+library(base)
+library(xml2)
+library(rvest)
+library(ggthemes)
+library(rmdformats)
+
+```
+
+
+
+```{r limpieza, echo=FALSE, warnings=FALSE, include=FALSE}
+url.poblacion<-"http://www.eustat.eus/elementos/ele0008400/Poblacion_de_la_CA_de_Euskadi_por_ano_de_nacimiento_segun_el_territorio_historico_y_el_sexo/tbl0008457_c.html"
+tmp <- read_html(url.poblacion)
+tmp <- html_nodes(tmp, "table")
+
+sapply(tmp, function(x) dim(html_table(x, fill = TRUE)))
+poblacion <- html_table(tmp[[1]])
+
+colnames(poblacion)<- c("anos", "euskadi_total", "euskadi_hombres", "euskadi_mujeres", "alava_total", "alava_hombres", "alava_mujeres", "bizkaia_total", "bizkaia_hombres", "bizkaia_mujeres", "gipuzkoa_total", "gipuzkoa_hombres", "gipuzkoa_mujeres")
+
+poblacion2 <-poblacion[6:nrow(poblacion)-1, ]
+poblacion2$anos <- as.Date(poblacion2$anos, format ="%Y")
+poblacion2$euskadi_total <- as.numeric(poblacion2$euskadi_total)
+
+```
+
+A continuación se muestra un gráfico que representa el total de nacimientos en la comunidad autónoma en el periodo señalado. Como podemos ver, existe un gran pico en el año 1919, seguido de una enorme caída en el año 1920. Estos datos llaman la atención por el drástico descenso en el número de nacimientos ocurrido en un solo año, pasando del máximo al mínimo valor. La epidemia de gripe ocurrida a finales del 1919 y que causó la muerte de más 20 millones de personas en todo España, explicaría el bajo número de nacimientos en la C.A. de Euskadi en 1920.
+
+
+```{r ggplot, echo=FALSE}
+ggplot(poblacion2, aes(x = anos, y = euskadi_total, col ="nacimientos por año")) +
+  geom_line() + theme_clean() +
+  labs(title = "Población de la C.A. de Euskadi por año de nacimiento")
+```
+
+En la siguiente tabla se muestran los 5 años en los cuales hubo menos nacimientos. Como podemos observar, estos datos coinciden con los años de despues de la caída del gráfico mostrado anteriormente. y nose que más decir...
+
+
+
+```{r resumen, echo=FALSE}
+library(kableExtra)
+ordenado <- poblacion2[order(poblacion2$euskadi_total), ]
+menos_nacimientos <- head(ordenado)
+kable(menos_nacimientos)
+```
+## Población de la C.A. de Euskadi en la época de los "Baby Boomers"
+
+La gráfica siguiente refleja el crecimiento continuado de la población de la C.A. de Euskadi desde el final de la guerra civil española en 1939, tras las caídas consecutivas de la población durante los años que duró la contienda. Es la época de los baby Boomers que marcó los años de posguerra.
+
+
+```{r datos, echo=FALSE, warning=FALSE, include=FALSE}
+
+library(knitr)
+library(highcharter)
+
+poblacion3 <- poblacion2[50:80, ]
+poblacion3$anos <- as.Date(poblacion3$anos, format ="%Y")
+poblacion3$euskadi_total <- as.numeric(poblacion3$euskadi_total)
+
+```
+```{r dinamico, echo=FALSE, warning=FALSE}
+
+hchart(poblacion3, "scatter", hcaes(x = anos, y = euskadi_total, group = anos)) %>%
+  hc_title(text = "Población de la C.A. de Euskadi en la época de los Baby Boomers") %>%
+  hc_add_theme(hc_theme_economist())
+```
+
