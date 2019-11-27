@@ -13,4 +13,4 @@ Proyecto final Nagore Urdangarin
 + knitr
 + highcharter
 
-install.packages(c("ggplot2", "reshape2", "lubridate", "rvest", "ggthemes" , "rmdformats", "kableExtra", "knitr", "highcharter"))
+install.packages(c("ggplot2", "reshape2", "lubridate", "base", "xm12", "rvest", "ggthemes" , "rmdformats", "kableExtra", "knitr", "highcharter"))
